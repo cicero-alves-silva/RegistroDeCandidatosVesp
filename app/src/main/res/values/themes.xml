@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Sobrescrevendo cor de contorno do TextInputLayout -->
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">
+        @color/azulEscuro
+    </color>
+
+    <!-- Base application theme. -->
+    <style name="Base.Theme.RegistroDeCandidatosVesp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Cor de fundo para as telas -->
+        <item name="android:colorBackground">@color/cinzaClaro</item>
+        <!-- Alterando cor do StatusBar -->
+        <item name="android:statusBarColor">@color/azulEscuro</item>
+    </style>
+
+    <style name="Theme.RegistroDeCandidatosVesp" parent="Base.Theme.RegistroDeCandidatosVesp" />
+</resources>
