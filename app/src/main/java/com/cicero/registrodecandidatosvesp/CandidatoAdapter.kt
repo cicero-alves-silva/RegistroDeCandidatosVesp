@@ -11,7 +11,21 @@ class CandidatoAdapter(var candidatoDAO: CandidatoDAO) :
 
     inner class CandidatoViewHolder(var binding: ItemCandidatoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        fun bind(posicao: Int) {
+            var candidato = listaCandidatos[posicao]
+            binding.tvNomeUrna.text = candidato.nomeNaUrna
+            binding.tvNumero.text = candidato.numeroCandidato.toString()
+            binding.tvCargo.text = candidato.cargoCandidato
+            binding.tvPartido.text = candidato.nomePartido
+
+            binding.btEditar.setOnClickListener { view ->
+            }
+
+            binding.btExcluir.setOnClickListener { view ->
+            }
+        }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             CandidatoViewHolder {
