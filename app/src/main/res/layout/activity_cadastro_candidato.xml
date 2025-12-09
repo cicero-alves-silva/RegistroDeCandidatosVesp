@@ -26,7 +26,7 @@
         app:srcCompat="@drawable/logo_tse" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilNomeurna"
+        android:id="@+id/tilNomeUrna"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilNomeurna">
+        app:layout_constraintTop_toBottomOf="@+id/tilNomeUrna">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tietNumeroCandidato"

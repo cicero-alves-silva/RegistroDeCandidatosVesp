@@ -1,5 +1,6 @@
 package com.cicero.registrodecandidatosvesp
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cicero.registrodecandidatosvesp.CandidatoAdapter.CandidatoViewHolder
@@ -8,6 +9,11 @@ import com.cicero.registrodecandidatosvesp.databinding.ItemCandidatoBinding
 class CandidatoAdapter(var candidatoDAO: CandidatoDAO) :
     RecyclerView.Adapter<CandidatoViewHolder>() {
     private var listaCandidatos = mutableListOf<Candidato>()
+
+    fun atualizarListaCandidatos(lista: MutableList<Candidato>) {
+        listaCandidatos = lista
+        notifyDataSetChanged()
+    }
 
     inner class CandidatoViewHolder(var binding: ItemCandidatoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,11 +35,16 @@ class CandidatoAdapter(var candidatoDAO: CandidatoDAO) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             CandidatoViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemCandidatoBinding.inflate(layoutInflater, parent, false)
+        return CandidatoViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CandidatoViewHolder, position: Int) {
+        holder.bind(position)
     }
 
     override fun getItemCount(): Int {
+        return listaCandidatos.size
     }
 }
