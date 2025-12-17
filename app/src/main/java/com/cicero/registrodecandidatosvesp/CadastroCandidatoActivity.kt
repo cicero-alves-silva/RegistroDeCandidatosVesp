@@ -1,9 +1,11 @@
 package com.cicero.registrodecandidatosvesp
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.cicero.registrodecandidatosvesp.databinding.ActivityCadastroCandidatoBinding
+import kotlin.toString
 
 class CadastroCandidatoActivity : AppCompatActivity() {
     private lateinit var candidatoDAO: CandidatoDAO
@@ -14,10 +16,26 @@ class CadastroCandidatoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val cargos = listOf("VEREADOR(A)", "VICE-PREFEITO(A)", "PREFEITO(A)")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cargos)
+        val adapter = ArrayAdapter(this, R.layout.item_dropdown, cargos)
         binding.tietCargoCandidato.setAdapter(adapter)
 
         candidatoDAO = BancoDeDados.getInstance(this).candidatoDAO()
+
+        val bundle = intent.extras
+        var candidato: Candidato? = null
+        if (bundle != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                candidato = bundle.getParcelable("CANDIDATO", Candidato::class.java)
+            } else {
+                candidato = bundle.getParcelable("CANDIDATO")
+            }
+            if (candidato != null) {
+                binding.tietNomeUrna.setText(candidato.nomeNaUrna)
+                binding.tietNumeroCandidato.setText(candidato.numeroCandidato.toString())
+                binding.tietCargoCandidato.setText(candidato.cargoCandidato, false)
+                binding.tietNomePartido.setText(candidato.nomePartido)
+            }
+        }
 
         binding.btSalvar.setOnClickListener { view ->
             val nomeUrna = binding.tietNomeUrna.text.toString()
@@ -52,15 +70,22 @@ class CadastroCandidatoActivity : AppCompatActivity() {
             if (nomeUrna.isNotEmpty() && numeroCandidato.isNotEmpty()
                 && cargoCandidato.isNotEmpty() && nomePartido.isNotEmpty()
             ) {
-                //salvar no BD
-                val novoCandidado =
-                    Candidato(
-                        0,
-                        nomeUrna,
-                        numeroCandidato.toInt(),
-                        cargoCandidato,
-                        nomePartido)
-                candidatoDAO.inserir(novoCandidado)
+                if (candidato == null) { //salvar no BD
+                    val novoCandidado =
+                        Candidato(0,
+                            nomeUrna,
+                            numeroCandidato.toInt(),
+                            cargoCandidato,
+                            nomePartido
+                        )
+                    candidatoDAO.inserir(novoCandidado)
+                } else { //alterar no BD
+                    candidato.nomeNaUrna = nomeUrna
+                    candidato.numeroCandidato = numeroCandidato.toInt()
+                    candidato.cargoCandidato = cargoCandidato
+                    candidato.nomePartido = nomePartido
+                    candidatoDAO.atualizar(candidato)
+                }
                 finish()
             }
         }

@@ -26,4 +26,9 @@ class MainActivity : AppCompatActivity() {
         binding.rvCandidatos.adapter = candidatoAdapter
         binding.rvCandidatos.layoutManager = LinearLayoutManager(this)
     }
+
+    override fun onStart() {
+        super.onStart()
+        candidatoAdapter.atualizarListaCandidatos(candidatoDAO.pesquisarTodos())
+    }
 }
